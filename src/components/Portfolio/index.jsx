@@ -9,13 +9,22 @@ class Portfolio extends Component {
     this.state = {
       filters: ["All", "Websites", "Flayers", "Business Cards"],
       selected: "All",
-      portfolioData,
+      portfolioData: portfolioData,
     };
   }
+
+  filterPortfolio = (selectFilter) => {
+    const filteredPortfolio = portfolioData.filter((el) => {
+      return el.category === selectFilter;
+    });
+
+    return selectFilter === "All" ? portfolioData : filteredPortfolio;
+  };
 
   onSelectFilter = (selectFilter) => {
     this.setState({
       selected: selectFilter,
+      portfolioData: this.filterPortfolio(selectFilter),
     });
   };
 
@@ -28,7 +37,7 @@ class Portfolio extends Component {
           onSelectFilter={this.onSelectFilter}
         />
 
-        <ProjectList />
+        <ProjectList portfolioData={this.state.portfolioData} />
       </div>
     );
   }
